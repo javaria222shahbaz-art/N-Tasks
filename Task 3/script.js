@@ -24,7 +24,6 @@ const dateElement = document.querySelector("#date");
 const modeBtn = document.querySelector("#modeBtn");
 
 
-
 // Store Tasks
 
 let tasks = [];
