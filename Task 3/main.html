@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TaskVerse | Smart Productivity Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+--primary:#6366F1;
+--secondary:#8B5CF6;
+--accent:#06B6D4;
+
+--success:#10B981;
+--danger:#EF4444;
+
+--bg:#F6F8FC;
+--card:#FFFFFF;
+
+--text:#1E293B;
+--text-light:#64748B;
+
+--shadow:0 15px 40px rgba(0,0,0,.08);
+
+}
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Outfit',sans-serif;
+
+}
+
+body{
+
+background:var(--bg);
+
+color:var(--text);
+
+overflow-x:hidden;
+
+position:relative;
+
+min-height:100vh;
+
+}
+
+/* =======================
+
+Background Blobs
+
+======================= */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+width:320px;
+
+height:320px;
+
+background:#D8B4FE;
+
+border-radius:50%;
+
+filter:blur(100px);
+
+top:-120px;
+
+left:-120px;
+
+opacity:.35;
+
+z-index:-2;
+
+}
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:280px;
+
+height:280px;
+
+background:#93C5FD;
+
+border-radius:50%;
+
+filter:blur(90px);
+
+bottom:-80px;
+
+right:-80px;
+
+opacity:.35;
+
+z-index:-2;
+
+}
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:40px 25px;
+
+}
+
+/* =======================
+
+Header
+
+======================= */
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:20px;
+
+margin-bottom:35px;
+
+}
+
+.left h1{
+
+font-size:42px;
+
+font-weight:800;
+
+color:var(--primary);
+
+}
+
+.left p{
+
+margin-top:8px;
+
+color:var(--text-light);
+
+font-size:17px;
+
+}
+
+.mode-btn{
+
+width:50px;
+
+height:50px;
+
+border:none;
+
+border-radius:50%;
+
+background:white;
+
+box-shadow:var(--shadow);
+
+cursor:pointer;
+
+font-size:22px;
+
+transition:.3s;
+
+}
+
+.mode-btn:hover{
+
+transform:rotate(15deg) scale(1.08);
+
+}
+
+/* =======================
+
+Date Card
+
+======================= */
+
+.date-card{
+
+background:white;
+
+padding:18px 25px;
+
+border-radius:18px;
+
+box-shadow:var(--shadow);
+
+margin-bottom:25px;
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+font-size:18px;
+
+font-weight:600;
+
+}
+
+.date-card span{
+
+font-size:26px;
+
+}
+
+/* =======================
+
+Input Area
+
+======================= */
+
+.input-box{
+
+background:white;
+
+padding:22px;
+
+border-radius:20px;
+
+box-shadow:var(--shadow);
+
+display:flex;
+
+gap:15px;
+
+margin-bottom:35px;
+
+}
+
+.input-box input{
+
+flex:1;
+
+padding:16px;
+
+font-size:17px;
+
+border:2px solid #E5E7EB;
+
+border-radius:14px;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+.input-box input:focus{
+
+border-color:var(--primary);
+
+}
+
+.input-box button{
+
+width:65px;
+
+border:none;
+
+border-radius:14px;
+
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+
+color:white;
+
+font-size:28px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.input-box button:hover{
+
+transform:scale(1.05);
+
+}
+
+/* =======================
+
+Dashboard
+
+======================= */
+
+.dashboard{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:20px;
+
+margin-bottom:30px;
+
+}
+
+.stat{
+
+background:white;
+
+padding:28px;
+
+border-radius:22px;
+
+box-shadow:var(--shadow);
+
+transition:.35s;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.stat:hover{
+
+transform:translateY(-8px);
+
+}
+
+.stat::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:6px;
+
+background:linear-gradient(90deg,var(--primary),var(--accent));
+
+}
+
+.stat h3{
+
+font-size:17px;
+
+color:var(--text-light);
+
+margin-bottom:12px;
+
+}
+
+.stat p{
+
+font-size:38px;
+
+font-weight:700;
+
+}
+
+/* =======================
+
+Filters
+
+======================= */
+
+.filters{
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+margin-bottom:30px;
+
+}
+
+.filter-btn{
+
+padding:12px 24px;
+
+border:none;
+
+border-radius:40px;
+
+background:white;
+
+box-shadow:var(--shadow);
+
+cursor:pointer;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.filter-btn.active{
+
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+
+color:white;
+
+}
+
+.filter-btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+/* =======================
+
+Task List
+
+======================= */
+
+.task-list{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.task{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:var(--shadow);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+transition:.3s;
+
+animation:appear .4s ease;
+
+}
+
+.task:hover{
+
+transform:translateY(-4px);
+
+}
+
+.task-left{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.check{
+
+width:28px;
+
+height:28px;
+
+border-radius:50%;
+
+border:2px solid var(--primary);
+
+cursor:pointer;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+.completed .check{
+
+background:var(--success);
+
+border-color:var(--success);
+
+color:white;
+
+}
+
+.task-text{
+
+font-size:18px;
+
+font-weight:500;
+
+}
+
+.completed .task-text{
+
+text-decoration:line-through;
+
+opacity:.55;
+
+}
+
+.delete{
+
+background:#FEE2E2;
+
+border:none;
+
+width:45px;
+
+height:45px;
+
+border-radius:50%;
+
+cursor:pointer;
+
+font-size:18px;
+
+transition:.3s;
+
+}
+
+.delete:hover{
+
+background:var(--danger);
+
+color:white;
+
+transform:rotate(12deg);
+
+}
+
+.empty{
+
+padding:70px 20px;
+
+text-align:center;
+
+color:var(--text-light);
+
+display:none;
+
+}
+
+.empty h2{
+
+font-size:28px;
+
+margin-bottom:12px;
+
+}
+
+.empty p{
+
+font-size:17px;
+
+}
+
+@keyframes appear{
+
+from{
+
+opacity:0;
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+/* =======================
+
+Footer & Watermark
+
+======================= */
+
+footer{
+
+margin-top:50px;
+
+text-align:center;
+
+padding:30px;
+
+color:var(--text-light);
+
+font-size:15px;
+
+}
+
+footer strong{
+
+color:var(--primary);
+
+}
+
+
+.watermark{
+
+position:fixed;
+
+right:20px;
+
+bottom:15px;
+
+font-size:13px;
+
+font-weight:600;
+
+color:var(--text-light);
+
+opacity:.35;
+
+pointer-events:none;
+
+}
+
+
+/* =======================
+
+Dark Mode
+
+======================= */
+
+body.dark{
+
+--bg:#0F172A;
+
+--card:#1E293B;
+
+--text:#F8FAFC;
+
+--text-light:#CBD5E1;
+
+}
+
+body.dark .mode-btn,
+body.dark .date-card,
+body.dark .input-box,
+body.dark .stat,
+body.dark .filter-btn,
+body.dark .task{
+
+background:#1E293B;
+
+color:white;
+
+}
+
+
+body.dark input{
+
+background:#334155;
+
+border-color:#475569;
+
+color:white;
+
+}
+
+
+body.dark .completed .task-text{
+
+opacity:.45;
+
+}
+
+
+/* =======================
+
+Responsive Design
+
+======================= */
+
+
+@media(max-width:900px){
+
+.dashboard{
+
+grid-template-columns:1fr;
+
+}
+
+
+.left h1{
+
+font-size:34px;
+
+}
+
+}
+
+
+@media(max-width:600px){
+
+
+.container{
+
+padding:25px 15px;
+
+}
+
+
+.header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+
+.input-box{
+
+flex-direction:column;
+
+}
+
+
+.input-box button{
+
+width:100%;
+
+height:55px;
+
+}
+
+
+.task{
+
+padding:16px;
+
+}
+
+
+.task-text{
+
+font-size:16px;
+
+}
+
+
+.watermark{
+
+display:none;
+
+}
+
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+
+<div class="left">
+
+<h1 id="greeting">
+ Good Morning, Jia
+</h1>
+
+
+<p>
+TaskVerse — Organize your productivity universe 
+</p>
+
+
+</div>
+
+
+<button class="mode-btn" id="modeBtn">
+
+</button>
+
+
+</header>
+
+
+
+
+<!-- DATE -->
+
+
+<div class="date-card">
+
+<span>
+
+</span>
+
+
+<p id="date">
+Loading date...
+</p>
+
+
+</div>
+
+
+
+
+
+<!-- INPUT -->
+
+
+<div class="input-box">
+
+
+<input 
+type="text"
+id="taskInput"
+placeholder="Write your next mission..."
+>
+
+
+<button id="addBtn">
++
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- STATS -->
+
+
+<section class="dashboard">
+
+
+<div class="stat">
+
+<h3>
+ Total Tasks
+</h3>
+
+<p id="totalCount">
+0
+</p>
+
+</div>
+
+
+
+
+<div class="stat">
+
+<h3>
+ Active Tasks
+</h3>
+
+<p id="activeCount">
+0
+</p>
+
+</div>
+
+
+
+
+<div class="stat">
+
+<h3>
+ Completed
+</h3>
+
+<p id="completedCount">
+0
+</p>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<!-- FILTERS -->
+
+
+<div class="filters">
+
+
+<button class="filter-btn active" data-filter="all">
+
+All
+
+</button>
+
+
+
+<button class="filter-btn" data-filter="active">
+
+Active
+
+</button>
+
+
+
+<button class="filter-btn" data-filter="completed">
+
+Completed
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<!-- TASK AREA -->
+
+
+<div class="task-list" id="taskList">
+
+</div>
+
+
+
+
+
+<div class="empty" id="emptyState">
+
+
+<h2>
+All missions completed!
+</h2>
+
+
+<p>
+Your productivity level is amazing. Time to relax 
+</p>
+
+
+</div>
+
+
+
+
+
+<footer>
+
+<p>
+TaskVerse
+</p>
+
+<p>
+Designed & Developed by 
+<strong>
+Jia (Javaria Shahbaz)
+</strong>
+</p>
+
+</footer>
+
+
+
+
+</div>
+
+
+
+
+<div class="watermark">
+
+Made by Jia
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
