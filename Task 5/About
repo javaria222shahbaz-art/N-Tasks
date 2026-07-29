@@ -1,7 +1,0 @@
-For localStorage I decided to store everything as one array of note objects under a single key instead of a separate key per note,
-kyunke that way I only need one getItem/setItem call and don't have to keep track of which keys exist. Each note has its own id, title, 
-content, and then createdAt and updatedAt as two separate timestamps instead of one, since I wanted "last edited" to update every time
-you save but still remember when the note was originally made. I wrapped the JSON.parse in a try/catch when loading, because if the
-storage ever gets corrupted or someone messes with it manually, I didn't want the whole app to crash — it just falls back to an empty
-list instead. Sorting by updatedAt on every render also means I didn't need a separate "pinned" or "recent" feature, editing a note naturally
-bumps it to the top, which felt like the more intuitive behavior anyway.
