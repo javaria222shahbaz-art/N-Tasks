@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corkboard — Notes</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --cork-1: #6B4A34;
+    --cork-2: #543421;
+    --ink: #2E2117;
+    --muted: #6B5C4D;
+    --danger: #B3261E;
+    --danger-bg: #FBE9E7;
+    --line: rgba(46,33,23,.14);
+    --radius: 14px;
+    --y1: #FFF3A3;
+    --y2: #FFD3E0;
+    --y3: #C8F4DE;
+    --y4: #CDE7FF;
+    --y5: #FFE0B3;
+    --shadow: 0 14px 30px rgba(30,20,10,.28);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    min-height:100vh;
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 8% 12%, rgba(0,0,0,.08) 0, transparent 3px),
+      radial-gradient(circle at 30% 65%, rgba(0,0,0,.07) 0, transparent 3px),
+      radial-gradient(circle at 62% 20%, rgba(0,0,0,.06) 0, transparent 3px),
+      radial-gradient(circle at 80% 75%, rgba(0,0,0,.08) 0, transparent 3px),
+      radial-gradient(circle at 45% 40%, rgba(0,0,0,.05) 0, transparent 3px),
+      radial-gradient(circle at 90% 30%, rgba(0,0,0,.06) 0, transparent 3px),
+      linear-gradient(160deg, var(--cork-1), var(--cork-2));
+    background-size: 40px 40px, 55px 55px, 48px 48px, 60px 60px, 35px 35px, 50px 50px, cover;
+    padding:50px 24px 90px;
+  }
+
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  :focus-visible{ outline:3px solid #fff; outline-offset:2px; }
+
+  .wrap{ max-width:1080px; margin:0 auto; }
+
+  /* ---------------- Header ---------------- */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:34px;
+  }
+  header h1{
+    font-family:'Kalam', cursive;
+    font-size:38px;
+    color:#fff;
+    text-shadow:0 3px 8px rgba(0,0,0,.35);
+  }
+  .search-box{
+    position:relative;
+  }
+  .search-box input{
+    width:260px;
+    padding:12px 16px 12px 40px;
+    border-radius:12px;
+    border:none;
+    font-size:15px;
+    background:rgba(255,255,255,.92);
+    box-shadow:var(--shadow);
+    outline:none;
+  }
+  .search-box::before{
+    content:"🔍";
+    position:absolute;
+    left:13px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:14px;
+    opacity:.6;
+  }
+
+  /* ---------------- Grid ---------------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+    gap:22px;
+    align-items:start;
+  }
+
+  /* ---------------- Cards (shared) ---------------- */
+  .card{
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+    position:relative;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:-9px; left:50%;
+    transform:translateX(-50%) rotate(-6deg);
+    width:26px; height:16px;
+    background:rgba(255,255,255,.55);
+    border-radius:3px;
+    box-shadow:0 2px 3px rgba(0,0,0,.2);
+  }
+  .note-card:hover{
+    transform:translateY(-5px) rotate(0deg) !important;
+    box-shadow:0 22px 45px rgba(30,20,10,.35);
+  }
+  .note-card:nth-child(5n+1){ background:var(--y1); transform:rotate(-1.4deg); }
+  .note-card:nth-child(5n+2){ background:var(--y2); transform:rotate(1.1deg); }
+  .note-card:nth-child(5n+3){ background:var(--y3); transform:rotate(-0.8deg); }
+  .note-card:nth-child(5n+4){ background:var(--y4); transform:rotate(1.6deg); }
+  .note-card:nth-child(5n+5){ background:var(--y5); transform:rotate(-1.1deg); }
+
+  .note-title{
+    font-family:'Kalam', cursive;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:8px;
+    word-break:break-word;
+  }
+  .note-content{
+    font-size:15px;
+    line-height:1.5;
+    color:#3a2c1e;
+    white-space:pre-wrap;
+    word-break:break-word;
+    margin-bottom:16px;
+    max-height:140px;
+    overflow:hidden;
+  }
+  .note-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:12px;
+    border-top:1px dashed rgba(46,33,23,.25);
+  }
+  .note-time{
+    font-size:12px;
+    color:var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .note-actions{
+    display:flex;
+    gap:6px;
+  }
+  .icon-btn{
+    border:none;
+    background:rgba(255,255,255,.5);
+    width:30px; height:30px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: background .18s ease, transform .18s ease;
+  }
+  .icon-btn:hover{
+    background:rgba(255,255,255,.85);
+    transform:scale(1.08);
+  }
+  .icon-btn.delete-confirm{
+    background:var(--danger);
+    color:#fff;
+    font-size:11px;
+    width:auto;
+    padding:0 10px;
+    font-weight:600;
+  }
+
+  /* ---------------- Composer / edit form ---------------- */
+  .composer{
+    background:#FFFDF6;
+    border:2px dashed rgba(46,33,23,.3);
+  }
+  .composer.editing-mode{
+    border-style:solid;
+    border-color:transparent;
+  }
+  .composer input[type="text"], .composer textarea{
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:'Inter', sans-serif;
+    outline:none;
+    resize:none;
+  }
+  .composer input[type="text"]{
+    font-family:'Kalam', cursive;
+    font-size:21px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .composer textarea{
+    font-size:15px;
+    line-height:1.5;
+    min-height:80px;
+    margin-bottom:4px;
+  }
+  .field-error{
+    display:none;
+    color:var(--danger);
+    font-size:12.5px;
+    font-weight:500;
+    margin-bottom:8px;
+  }
+  .field-error.visible{ display:block; }
+  .composer .form-actions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+  }
+  .btn{
+    border:none;
+    border-radius:9px;
+    padding:9px 18px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn-save{
+    background:var(--ink);
+    color:#fff;
+  }
+  .btn-save:hover{ transform:translateY(-2px); box-shadow:0 10px 20px rgba(0,0,0,.22); }
+  .btn-cancel{
+    background:transparent;
+    color:var(--muted);
+  }
+  .btn-cancel:hover{ color:var(--ink); }
+
+  .empty-msg{
+    grid-column:1/-1;
+    text-align:center;
+    color:rgba(255,255,255,.8);
+    padding:60px 20px;
+    font-family:'Kalam', cursive;
+    font-size:20px;
+  }
+
+  footer{
+    text-align:center;
+    color:rgba(255,255,255,.7);
+    font-size:13px;
+    margin-top:50px;
+  }
+  footer .credit{
+    margin-top:6px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.06em;
+    color:rgba(255,255,255,.55);
+  }
+
+  @media (max-width:560px){
+    .search-box input{ width:100%; }
+    header{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>📌 Corkboard</h1>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search notes...">
+    </div>
+  </header>
+
+  <div class="grid" id="grid">
+    <!-- composer card is rendered here by JS, followed by note cards -->
+  </div>
+
+  <footer>
+    <p>Notes are saved to this browser only, via localStorage</p>
+    <p class="credit">Made by Jia</p>
+  </footer>
+</div>
+
+<script>
+  // ===============================================
+  // Storage layer
+  // ===============================================
+  const STORAGE_KEY = 'corkboard:notes';
+
+  function loadNotes(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (err){
+      // corrupted storage shouldn't crash the app — just start fresh
+      return [];
+    }
+  }
+
+  function saveNotes(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+  }
+
+  // ===============================================
+  // State
+  // ===============================================
+  let notes = loadNotes();       // [{ id, title, content, createdAt, updatedAt }]
+  let editingId = null;          // id of note currently being edited, or null
+  let searchTerm = '';
+
+  const grid = document.querySelector('#grid');
+  const searchInput = document.querySelector('#searchInput');
+
+  function makeId(){
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  function timeAgo(iso){
+    const diffMs = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diffMs / 60000);
+    if (mins < 1) return 'Edited just now';
+    if (mins < 60) return 'Edited ' + mins + 'm ago';
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return 'Edited ' + hours + 'h ago';
+    const days = Math.floor(hours / 24);
+    if (days < 7) return 'Edited ' + days + 'd ago';
+    return 'Edited ' + new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  }
+
+  // ===============================================
+  // Composer (used for both "new note" and "edit note")
+  // ===============================================
+  function createComposer(existingNote){
+    const isEditing = !!existingNote;
+
+    const card = document.createElement('div');
+    card.className = 'card composer' + (isEditing ? ' editing-mode' : '');
+    if (isEditing) card.style.background = getNoteColor(existingNote.id);
+
+    const titleInput = document.createElement('input');
+    titleInput.type = 'text';
+    titleInput.placeholder = 'Note title...';
+    titleInput.value = isEditing ? existingNote.title : '';
+
+    const titleError = document.createElement('p');
+    titleError.className = 'field-error';
+    titleError.textContent = 'Title can\'t be empty.';
+
+    const contentArea = document.createElement('textarea');
+    contentArea.rows = isEditing ? 4 : 2;
+    contentArea.placeholder = 'Write something...';
+    contentArea.value = isEditing ? existingNote.content : '';
+
+    const contentError = document.createElement('p');
+    contentError.className = 'field-error';
+    contentError.textContent = 'Note content can\'t be empty.';
+
+    const actions = document.createElement('div');
+    actions.className = 'form-actions';
+
+    const saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'btn btn-save';
+    saveBtn.textContent = isEditing ? 'Save' : 'Add note';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'btn btn-cancel';
+    cancelBtn.textContent = 'Cancel';
+
+    function validateAndSave(){
+      const titleVal = titleInput.value.trim();
+      const contentVal = contentArea.value.trim();
+
+      let valid = true;
+      if (titleVal === ''){
+        titleError.classList.add('visible');
+        valid = false;
+      } else {
+        titleError.classList.remove('visible');
+      }
+
+      if (contentVal === ''){
+        contentError.classList.add('visible');
+        valid = false;
+      } else {
+        contentError.classList.remove('visible');
+      }
+
+      if (!valid) return;
+
+      const now = new Date().toISOString();
+
+      if (isEditing){
+        const note = notes.find(n => n.id === existingNote.id);
+        note.title = titleVal;
+        note.content = contentVal;
+        note.updatedAt = now;
+        editingId = null;
+      } else {
+        notes.push({
+          id: makeId(),
+          title: titleVal,
+          content: contentVal,
+          createdAt: now,
+          updatedAt: now
+        });
+      }
+
+      saveNotes();
+      render();
+    }
+
+    // clear an error the moment the user starts fixing it
+    titleInput.addEventListener('input', function(){
+      if (titleInput.value.trim() !== '') titleError.classList.remove('visible');
+    });
+    contentArea.addEventListener('input', function(){
+      if (contentArea.value.trim() !== '') contentError.classList.remove('visible');
+    });
+
+    saveBtn.addEventListener('click', validateAndSave);
+
+    cancelBtn.addEventListener('click', function(){
+      editingId = null;
+      render();
+    });
+
+    actions.appendChild(saveBtn);
+    actions.appendChild(cancelBtn);
+
+    card.appendChild(titleInput);
+    card.appendChild(titleError);
+    card.appendChild(contentArea);
+    card.appendChild(contentError);
+    card.appendChild(actions);
+
+    return card;
+  }
+
+  // ===============================================
+  // Note display card
+  // ===============================================
+  function createNoteCard(note){
+    const card = document.createElement('div');
+    card.className = 'card note-card';
+
+    const title = document.createElement('p');
+    title.className = 'note-title';
+    title.textContent = note.title;
+
+    const content = document.createElement('p');
+    content.className = 'note-content';
+    content.textContent = note.content;
+
+    const footerRow = document.createElement('div');
+    footerRow.className = 'note-footer';
+
+    const time = document.createElement('span');
+    time.className = 'note-time';
+    time.textContent = timeAgo(note.updatedAt);
+
+    const actions = document.createElement('div');
+    actions.className = 'note-actions';
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'icon-btn';
+    editBtn.title = 'Edit';
+    editBtn.textContent = '✏️';
+    editBtn.addEventListener('click', function(){
+      editingId = note.id;
+      render();
+    });
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'icon-btn';
+    deleteBtn.title = 'Delete';
+    deleteBtn.textContent = '🗑️';
+    deleteBtn.addEventListener('click', function(){
+      // two-step confirm inline, no browser confirm() popup
+      deleteBtn.textContent = '';
+      deleteBtn.classList.add('delete-confirm');
+      deleteBtn.textContent = 'Sure?';
+      deleteBtn.onclick = function(){
+        notes = notes.filter(n => n.id !== note.id);
+        saveNotes();
+        render();
+      };
+    });
+
+    actions.appendChild(editBtn);
+    actions.appendChild(deleteBtn);
+
+    footerRow.appendChild(time);
+    footerRow.appendChild(actions);
+
+    card.appendChild(title);
+    card.appendChild(content);
+    card.appendChild(footerRow);
+
+    return card;
+  }
+
+  // deterministic pastel color per note id, so editing doesn't shift its color
+  function getNoteColor(id){
+    const colors = ['var(--y1)','var(--y2)','var(--y3)','var(--y4)','var(--y5)'];
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) hash += id.charCodeAt(i);
+    return colors[hash % colors.length];
+  }
+
+  // ===============================================
+  // Render
+  // ===============================================
+  function render(){
+    grid.textContent = '';
+
+    // composer: either "new note" mode, or nothing if currently editing a card
+    if (editingId === null){
+      grid.appendChild(createComposer(null));
+    }
+
+    const filtered = notes
+      .filter(function(n){
+        if (searchTerm === '') return true;
+        const haystack = (n.title + ' ' + n.content).toLowerCase();
+        return haystack.includes(searchTerm);
+      })
+      .sort(function(a, b){
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      });
+
+    if (filtered.length === 0 && notes.length > 0){
+      const msg = document.createElement('p');
+      msg.className = 'empty-msg';
+      msg.textContent = 'No notes match your search.';
+      grid.appendChild(msg);
+    }
+
+    filtered.forEach(function(note){
+      if (note.id === editingId){
+        grid.appendChild(createComposer(note));
+      } else {
+        grid.appendChild(createNoteCard(note));
+      }
+    });
+  }
+
+  searchInput.addEventListener('input', function(){
+    searchTerm = searchInput.value.trim().toLowerCase();
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
