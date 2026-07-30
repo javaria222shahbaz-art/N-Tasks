@@ -1,0 +1,6 @@
+I went with one HTML file and hash-based routing instead of four separate pages, because that way the navbar and footer
+only exist once in the whole file instead of me having to copy-paste them into four files and keep them in sync every time
+I change something. The router function is really simple — it just reads whatever's after the # in the URL, then toggles which
+.page section has the active class, so switching pages is really just showing/hiding, not reloading anything. Same logic updates
+which nav link gets highlighted, so I don't have to manually mark "current page" anywhere either. Agar mujhe kabhi ek naya page
+add karna ho, I'd just add one more .page section and one more link with a matching data-route, the router already handles the rest.
