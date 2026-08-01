@@ -1,0 +1,2772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ORBIT UI | Vanilla JavaScript Component Library</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+
+--primary:#6C63FF;
+--secondary:#8B5CF6;
+--accent:#06B6D4;
+
+--success:#22C55E;
+--warning:#F59E0B;
+--danger:#EF4444;
+
+--bg:#F5F7FB;
+--card:rgba(255,255,255,.75);
+
+--text:#111827;
+--muted:#6B7280;
+
+--border:rgba(255,255,255,.4);
+
+--shadow:
+0 20px 50px rgba(17,24,39,.08);
+
+}
+
+body{
+
+font-family:"Inter",sans-serif;
+
+background:linear-gradient(
+135deg,
+#EEF2FF,
+#F8FAFC
+);
+
+color:var(--text);
+
+overflow-x:hidden;
+
+}
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:0 30px;
+
+position:relative;
+
+z-index:2;
+
+}
+
+
+
+/* Floating Background */
+
+.blob{
+
+position:fixed;
+
+border-radius:50%;
+
+filter:blur(70px);
+
+opacity:.45;
+
+animation:floatBlob 15s infinite alternate;
+
+z-index:0;
+
+}
+
+.blob1{
+
+width:320px;
+height:320px;
+
+background:#8B5CF6;
+
+top:-80px;
+left:-80px;
+
+}
+
+.blob2{
+
+width:260px;
+height:260px;
+
+background:#06B6D4;
+
+right:-50px;
+top:200px;
+
+animation-delay:5s;
+
+}
+
+.blob3{
+
+width:240px;
+height:240px;
+
+background:#6C63FF;
+
+bottom:-80px;
+left:40%;
+
+animation-delay:3s;
+
+}
+
+@keyframes floatBlob{
+
+from{
+
+transform:translateY(0px);
+
+}
+
+to{
+
+transform:translateY(50px);
+
+}
+
+}
+
+
+
+/* NAVBAR */
+
+nav{
+
+margin-top:25px;
+
+padding:18px 30px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.55);
+
+backdrop-filter:blur(18px);
+
+box-shadow:var(--shadow);
+
+border:1px solid rgba(255,255,255,.5);
+
+position:sticky;
+
+top:20px;
+
+z-index:999;
+
+}
+
+.logo{
+
+font-family:"Space Grotesk";
+
+font-size:28px;
+
+font-weight:700;
+
+color:var(--primary);
+
+letter-spacing:.5px;
+
+}
+
+.nav-links{
+
+display:flex;
+
+gap:35px;
+
+list-style:none;
+
+}
+
+.nav-links a{
+
+text-decoration:none;
+
+color:var(--muted);
+
+font-weight:500;
+
+transition:.3s;
+
+}
+
+.nav-links a:hover{
+
+color:var(--primary);
+
+}
+
+.theme-btn{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:12px;
+
+background:var(--primary);
+
+color:white;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.theme-btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+
+
+/* HERO */
+
+.hero{
+
+display:grid;
+
+grid-template-columns:1.1fr .9fr;
+
+align-items:center;
+
+gap:60px;
+
+padding:90px 0;
+
+}
+
+.badge{
+
+display:inline-block;
+
+padding:8px 16px;
+
+border-radius:30px;
+
+background:#E0E7FF;
+
+color:var(--primary);
+
+font-size:13px;
+
+font-weight:600;
+
+margin-bottom:20px;
+
+}
+
+.hero h1{
+
+font-family:"Space Grotesk";
+
+font-size:64px;
+
+line-height:1.1;
+
+margin-bottom:25px;
+
+}
+
+.hero h1 span{
+
+background:linear-gradient(
+90deg,
+var(--primary),
+var(--accent)
+);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+line-height:1.8;
+
+color:var(--muted);
+
+margin-bottom:35px;
+
+max-width:520px;
+
+}
+
+
+
+/* Hero Buttons */
+
+.hero-buttons{
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+padding:15px 28px;
+
+border:none;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-size:15px;
+
+font-weight:600;
+
+transition:.35s;
+
+}
+
+.btn-primary{
+
+background:linear-gradient(
+135deg,
+var(--primary),
+var(--secondary)
+);
+
+color:white;
+
+}
+
+.btn-outline{
+
+background:white;
+
+border:2px solid var(--primary);
+
+color:var(--primary);
+
+}
+
+.btn-danger{
+
+background:var(--danger);
+
+color:white;
+
+}
+
+.btn:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 15px 35px rgba(108,99,255,.25);
+
+}
+
+
+
+/* Hero Preview */
+
+.preview{
+
+background:rgba(255,255,255,.75);
+
+backdrop-filter:blur(20px);
+
+border-radius:25px;
+
+padding:30px;
+
+box-shadow:var(--shadow);
+
+border:1px solid rgba(255,255,255,.5);
+
+animation:floatCard 5s ease-in-out infinite;
+
+}
+
+@keyframes floatCard{
+
+0%,100%{
+
+transform:translateY(0px);
+
+}
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+}
+
+.preview h3{
+
+font-family:"Space Grotesk";
+
+margin-bottom:25px;
+
+}
+
+.fake-window{
+
+background:white;
+
+border-radius:18px;
+
+padding:20px;
+
+box-shadow:var(--shadow);
+
+}
+
+.window-bar{
+
+display:flex;
+
+gap:8px;
+
+margin-bottom:20px;
+
+}
+
+.dot{
+
+width:12px;
+
+height:12px;
+
+border-radius:50%;
+
+}
+
+.red{
+
+background:#EF4444;
+
+}
+
+.yellow{
+
+background:#F59E0B;
+
+}
+
+.green{
+
+background:#22C55E;
+
+}
+
+.fake-button{
+
+height:42px;
+
+border-radius:12px;
+
+margin-bottom:15px;
+
+background:linear-gradient(
+135deg,
+#EEF2FF,
+#E0F2FE
+);
+
+}
+
+.fake-card{
+
+height:85px;
+
+border-radius:16px;
+
+background:#F8FAFC;
+
+}
+
+
+
+/* Showcase */
+
+.showcase{
+
+padding:50px 0;
+
+}
+
+.section-title{
+
+text-align:center;
+
+margin-bottom:60px;
+
+}
+
+.section-title h2{
+
+font-family:"Space Grotesk";
+
+font-size:42px;
+
+margin-bottom:15px;
+
+}
+
+.section-title p{
+
+color:var(--muted);
+
+font-size:17px;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:30px;
+
+}
+
+.panel{
+
+background:rgba(255,255,255,.75);
+
+backdrop-filter:blur(18px);
+
+border-radius:24px;
+
+padding:30px;
+
+box-shadow:var(--shadow);
+
+border:1px solid rgba(255,255,255,.45);
+
+}
+
+.panel h3{
+
+font-family:"Space Grotesk";
+
+margin-bottom:25px;
+
+}
+
+.demo-area{
+
+display:flex;
+
+gap:18px;
+
+flex-wrap:wrap;
+
+}
+
+
+
+/* Containers populated by JS */
+
+#buttonsDemo,
+#cardsDemo,
+#modalDemo,
+#toastDemo{
+
+display:flex;
+
+gap:18px;
+
+flex-wrap:wrap;
+
+}
+
+
+
+/* Footer */
+
+footer{
+
+margin:90px 0 40px;
+
+text-align:center;
+
+color:var(--muted);
+
+}
+
+footer strong{
+
+color:var(--text);
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:900px){
+
+.hero{
+
+grid-template-columns:1fr;
+
+}
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+.hero h1{
+
+font-size:46px;
+
+}
+
+.nav-links{
+
+display:none;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<div class="container">
+
+<nav>
+
+<div class="logo">
+ORBIT UI
+</div>
+
+<ul class="nav-links">
+
+<li><a href="#">Components</a></li>
+
+<li><a href="#">Documentation</a></li>
+
+<li><a href="#">Examples</a></li>
+
+</ul>
+
+<button class="theme-btn" id="themeToggle">
+Dark Mode
+</button>
+
+</nav>
+
+<section class="hero">
+
+<div>
+
+<div class="badge">
+Reusable Vanilla JavaScript Components
+</div>
+
+<h1>
+
+Build beautiful
+<span>UI components</span>
+without a framework.
+
+</h1>
+
+<p>
+
+ORBIT UI is a reusable component library built entirely with Vanilla JavaScript. Every component accepts configurable properties, making the code cleaner, reusable, and easier to maintain.
+
+</p>
+
+<div class="hero-buttons">
+
+<button class="btn btn-primary">
+Explore Components
+</button>
+
+<button class="btn btn-outline">
+View Demo
+</button>
+
+</div>
+
+</div>
+
+<div class="preview">
+
+<h3>
+Live Component Preview
+</h3>
+
+<div class="fake-window">
+
+<div class="window-bar">
+
+<div class="dot red"></div>
+<div class="dot yellow"></div>
+<div class="dot green"></div>
+
+</div>
+
+<div class="fake-button"></div>
+
+<div class="fake-card"></div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="showcase">
+
+<div class="section-title">
+
+<h2>
+Component Showcase
+</h2>
+
+<p>
+
+Every component below is generated dynamically using reusable JavaScript functions.
+
+</p>
+
+</div>
+
+<div class="grid">
+
+<div class="panel">
+
+<h3>
+Buttons
+</h3>
+
+<div id="buttonsDemo"></div>
+
+</div>
+
+<div class="panel">
+
+<h3>
+Cards
+</h3>
+
+<div id="cardsDemo"></div>
+
+</div>
+
+<div class="panel">
+
+<h3>
+Modal
+</h3>
+
+<div id="modalDemo"></div>
+
+</div>
+
+<div class="panel">
+
+<h3>
+Toast Notifications
+</h3>
+
+<div id="toastDemo"></div>
+
+</div>
+
+</div>
+
+</section>
+
+<div id="toastContainer"></div>
+
+<div id="modalContainer"></div>
+
+<footer>
+
+Designed & Developed by
+<strong>Jia </strong>
+
+</footer>
+
+<style>
+/* ===================================
+   DARK MODE THEME
+=================================== */
+
+body.dark{
+
+--bg:#0F172A;
+
+--card:rgba(30,41,59,.75);
+
+--text:#F8FAFC;
+
+--muted:#CBD5E1;
+
+--border:rgba(255,255,255,.1);
+
+background:
+linear-gradient(
+135deg,
+#0F172A,
+#111827
+);
+
+}
+
+
+body.dark nav,
+body.dark .panel,
+body.dark .preview{
+
+background:rgba(15,23,42,.75);
+
+border-color:rgba(255,255,255,.08);
+
+}
+
+
+body.dark .fake-window,
+body.dark .btn-outline{
+
+background:#1E293B;
+
+color:white;
+
+}
+
+
+body.dark .fake-card{
+
+background:#334155;
+
+}
+
+
+body.dark .fake-button{
+
+background:
+linear-gradient(
+135deg,
+#334155,
+#475569
+);
+
+}
+
+
+body.dark .badge{
+
+background:#312E81;
+
+color:#C7D2FE;
+
+}
+
+
+
+/* ===================================
+   COMPONENT PREVIEW AREA
+=================================== */
+
+
+.component-preview{
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+}
+
+
+
+/* ===================================
+   BUTTON POLISH
+=================================== */
+
+
+.btn{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+
+.btn::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-100%;
+
+width:100%;
+
+height:100%;
+
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.35),
+transparent
+);
+
+transition:.5s;
+
+}
+
+
+.btn:hover::before{
+
+left:100%;
+
+}
+
+
+.btn-primary:hover{
+
+box-shadow:
+
+0 15px 35px rgba(108,99,255,.45);
+
+}
+
+
+.btn-outline:hover{
+
+background:var(--primary);
+
+color:white;
+
+}
+
+
+
+/* ===================================
+   MODAL SYSTEM
+=================================== */
+
+
+.modal-overlay{
+
+position:fixed;
+
+inset:0;
+
+background:
+
+rgba(15,23,42,.55);
+
+backdrop-filter:blur(8px);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+opacity:0;
+
+visibility:hidden;
+
+transition:.35s;
+
+z-index:1000;
+
+}
+
+
+.modal-overlay.active{
+
+opacity:1;
+
+visibility:visible;
+
+}
+
+
+
+.modal-box{
+
+width:450px;
+
+max-width:90%;
+
+background:white;
+
+border-radius:25px;
+
+padding:35px;
+
+box-shadow:
+
+0 30px 80px rgba(0,0,0,.25);
+
+animation:
+
+modalPop .35s ease;
+
+}
+
+
+
+body.dark .modal-box{
+
+background:#1E293B;
+
+color:white;
+
+}
+
+
+
+@keyframes modalPop{
+
+
+from{
+
+transform:
+
+scale(.85)
+
+translateY(40px);
+
+opacity:0;
+
+}
+
+
+to{
+
+transform:
+
+scale(1)
+
+translateY(0);
+
+opacity:1;
+
+}
+
+
+}
+
+
+
+.modal-box h2{
+
+font-family:"Space Grotesk";
+
+font-size:28px;
+
+margin-bottom:15px;
+
+}
+
+
+
+.modal-box p{
+
+color:var(--muted);
+
+line-height:1.7;
+
+margin-bottom:25px;
+
+}
+
+
+
+.modal-buttons{
+
+display:flex;
+
+justify-content:flex-end;
+
+gap:15px;
+
+}
+
+
+
+/* ===================================
+   TOAST SYSTEM
+=================================== */
+
+
+#toastContainer{
+
+position:fixed;
+
+top:30px;
+
+right:30px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+z-index:2000;
+
+}
+
+
+
+.toast{
+
+min-width:320px;
+
+background:white;
+
+border-radius:18px;
+
+padding:18px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+box-shadow:
+
+0 20px 50px rgba(0,0,0,.15);
+
+animation:
+
+toastIn .4s ease;
+
+overflow:hidden;
+
+}
+
+
+
+body.dark .toast{
+
+background:#1E293B;
+
+color:white;
+
+}
+
+
+
+.toast-content{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+font-weight:600;
+
+}
+
+
+
+.toast-icon{
+
+width:35px;
+
+height:35px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:18px;
+
+background:#EEF2FF;
+
+color:var(--primary);
+
+}
+
+
+
+.toast.success .toast-icon{
+
+background:#DCFCE7;
+
+color:#16A34A;
+
+}
+
+
+.toast.error .toast-icon{
+
+background:#FEE2E2;
+
+color:#DC2626;
+
+}
+
+
+.toast.warning .toast-icon{
+
+background:#FEF3C7;
+
+color:#D97706;
+
+}
+
+
+.toast.info .toast-icon{
+
+background:#E0F2FE;
+
+color:#0284C7;
+
+}
+
+
+
+.toast-bar{
+
+height:4px;
+
+width:100%;
+
+background:var(--primary);
+
+animation:
+
+toastTimer 3s linear forwards;
+
+}
+
+
+
+@keyframes toastIn{
+
+
+from{
+
+opacity:0;
+
+transform:translateX(100px);
+
+}
+
+
+to{
+
+opacity:1;
+
+transform:translateX(0);
+
+}
+
+
+}
+
+
+
+@keyframes toastTimer{
+
+from{
+
+width:100%;
+
+}
+
+to{
+
+width:0%;
+
+}
+
+}
+
+
+
+/* ===================================
+   CARD COMPONENT STYLE
+=================================== */
+
+
+.component-card{
+
+background:white;
+
+border-radius:22px;
+
+padding:25px;
+
+width:280px;
+
+box-shadow:
+
+0 15px 40px rgba(15,23,42,.08);
+
+transition:.35s;
+
+}
+
+
+
+.component-card:hover{
+
+transform:
+
+translateY(-10px);
+
+box-shadow:
+
+0 25px 60px rgba(15,23,42,.15);
+
+}
+
+
+
+body.dark .component-card{
+
+background:#1E293B;
+
+color:white;
+
+}
+
+
+
+.component-card h3{
+
+font-family:"Space Grotesk";
+
+margin-bottom:10px;
+
+}
+
+
+.component-card p{
+
+color:var(--muted);
+
+font-size:14px;
+
+line-height:1.6;
+
+}
+
+
+
+/* ===================================
+   MOBILE TOAST FIX
+=================================== */
+
+
+@media(max-width:600px){
+
+
+#toastContainer{
+
+right:15px;
+
+left:15px;
+
+}
+
+
+.toast{
+
+min-width:auto;
+
+width:100%;
+
+}
+
+
+}
+/* ===================================
+   SCROLL REVEAL ANIMATION
+=================================== */
+
+.reveal{
+
+opacity:0;
+
+transform:translateY(40px);
+
+transition:
+
+opacity .8s ease,
+
+transform .8s ease;
+
+}
+
+
+.reveal.show{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+
+/* ===================================
+   GRADIENT TEXT EFFECT
+=================================== */
+
+
+.gradient-text{
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#6C63FF,
+
+#06B6D4
+
+);
+
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+
+
+/* ===================================
+   COMPONENT SHOWCASE POLISH
+=================================== */
+
+
+.panel{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+
+.panel::before{
+
+content:"";
+
+position:absolute;
+
+width:180px;
+
+height:180px;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(108,99,255,.15),
+
+transparent 70%
+
+);
+
+top:-80px;
+
+right:-80px;
+
+}
+
+
+.panel:hover{
+
+transform:translateY(-5px);
+
+}
+
+
+
+.panel{
+
+transition:.35s;
+
+}
+
+
+
+/* ===================================
+   DEMO BUTTON AREA
+=================================== */
+
+
+#buttonsDemo button{
+
+min-width:120px;
+
+}
+
+
+#cardsDemo{
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+}
+
+
+
+/* ===================================
+   FLOATING ANIMATION
+=================================== */
+
+
+.floating{
+
+animation:
+
+floating 4s ease-in-out infinite;
+
+}
+
+
+@keyframes floating{
+
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+
+}
+
+
+
+/* ===================================
+   GLOW EFFECTS
+=================================== */
+
+
+.glow{
+
+box-shadow:
+
+0 0 0 rgba(108,99,255,0);
+
+transition:.4s;
+
+}
+
+
+
+.glow:hover{
+
+box-shadow:
+
+0 0 40px rgba(108,99,255,.35);
+
+}
+
+
+
+/* ===================================
+   SECTION DIVIDER
+=================================== */
+
+
+.section-divider{
+
+height:1px;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+transparent,
+
+#CBD5E1,
+
+transparent
+
+);
+
+margin:70px 0;
+
+}
+
+
+
+/* ===================================
+   ACCESSIBILITY
+=================================== */
+
+
+button:focus-visible{
+
+outline:
+
+3px solid #06B6D4;
+
+outline-offset:3px;
+
+}
+
+
+
+/* ===================================
+   TABLET RESPONSIVE
+=================================== */
+
+
+@media(max-width:1100px){
+
+
+.hero{
+
+gap:40px;
+
+}
+
+
+.hero h1{
+
+font-size:54px;
+
+}
+
+
+.panel{
+
+padding:25px;
+
+}
+
+
+}
+
+
+
+/* ===================================
+   MOBILE RESPONSIVE
+=================================== */
+
+
+@media(max-width:700px){
+
+
+.container{
+
+padding:0 18px;
+
+}
+
+
+nav{
+
+padding:15px 20px;
+
+}
+
+
+.logo{
+
+font-size:22px;
+
+}
+
+
+.hero{
+
+padding:60px 0;
+
+}
+
+
+.hero h1{
+
+font-size:40px;
+
+}
+
+
+.hero p{
+
+font-size:16px;
+
+}
+
+
+.hero-buttons{
+
+flex-direction:column;
+
+}
+
+
+.hero-buttons .btn{
+
+width:100%;
+
+}
+
+
+.section-title h2{
+
+font-size:34px;
+
+}
+
+
+.panel h3{
+
+font-size:22px;
+
+}
+
+
+}
+
+
+
+/* ===================================
+   REDUCED MOTION
+=================================== */
+
+
+@media(prefers-reduced-motion:reduce){
+
+
+*{
+
+animation:none!important;
+
+transition:none!important;
+
+}
+
+
+}
+</style>
+
+<script>
+
+
+// =======================================
+// BUTTON COMPONENT
+// =======================================
+
+function createButton({
+
+text = "Button",
+
+variant = "primary",
+
+onClick = null
+
+}){
+
+
+const button = document.createElement("button");
+
+
+button.className = `btn btn-${variant}`;
+
+
+button.textContent = text;
+
+
+
+if(onClick){
+
+button.addEventListener(
+
+"click",
+
+onClick
+
+);
+
+}
+
+
+
+return button;
+
+
+}
+
+
+
+
+// =======================================
+// CARD COMPONENT
+// =======================================
+
+function createCard({
+
+title,
+
+role,
+
+description,
+
+icon = "◆"
+
+}){
+
+
+const card = document.createElement("div");
+
+
+card.className = "component-card";
+
+
+
+const iconBox = document.createElement("div");
+
+
+iconBox.className = "toast-icon";
+
+
+iconBox.textContent = icon;
+
+
+
+const heading = document.createElement("h3");
+
+
+heading.textContent = title;
+
+
+
+const subtitle = document.createElement("p");
+
+
+subtitle.textContent = role;
+
+
+
+const text = document.createElement("p");
+
+
+text.textContent = description;
+
+
+
+card.append(
+
+iconBox,
+
+heading,
+
+subtitle,
+
+text
+
+);
+
+
+
+return card;
+
+
+}
+
+
+
+
+
+// =======================================
+// MODAL COMPONENT
+// =======================================
+
+function createModal({
+
+title,
+
+message,
+
+confirmText = "Confirm",
+
+cancelText = "Cancel",
+
+onConfirm = null
+
+}){
+
+
+const overlay = document.createElement("div");
+
+
+overlay.className = "modal-overlay";
+
+
+
+const modal = document.createElement("div");
+
+
+modal.className = "modal-box";
+
+
+
+const heading = document.createElement("h2");
+
+
+heading.textContent = title;
+
+
+
+const paragraph = document.createElement("p");
+
+
+paragraph.textContent = message;
+
+
+
+const actions = document.createElement("div");
+
+
+actions.className = "modal-buttons";
+
+
+
+
+function closeModal(){
+
+overlay.remove();
+
+document.removeEventListener("keydown", closeEscape);
+
+}
+
+
+
+const cancelButton = createButton({
+
+text:cancelText,
+
+variant:"outline",
+
+onClick(){
+
+
+closeModal();
+
+
+}
+
+});
+
+
+
+
+
+const confirmButton = createButton({
+
+text:confirmText,
+
+variant:"primary",
+
+onClick(){
+
+
+if(onConfirm){
+
+onConfirm();
+
+}
+
+
+closeModal();
+
+
+}
+
+});
+
+
+
+actions.append(
+
+cancelButton,
+
+confirmButton
+
+);
+
+
+
+modal.append(
+
+heading,
+
+paragraph,
+
+actions
+
+);
+
+
+
+overlay.appendChild(modal);
+
+
+
+document.body.appendChild(overlay);
+
+
+
+setTimeout(()=>{
+
+
+overlay.classList.add("active");
+
+
+},10);
+
+
+
+
+
+overlay.addEventListener(
+
+"click",
+
+function(event){
+
+
+if(event.target === overlay){
+
+
+closeModal();
+
+
+}
+
+
+}
+
+);
+
+
+
+function closeEscape(event){
+
+
+if(event.key === "Escape"){
+
+
+closeModal();
+
+
+}
+
+
+}
+
+
+
+document.addEventListener("keydown", closeEscape);
+
+
+
+}
+
+
+
+
+
+// =======================================
+// TOAST COMPONENT
+// =======================================
+
+
+function createToast({
+
+message,
+
+type = "success",
+
+duration = 3000
+
+}){
+
+
+const container = document.getElementById(
+
+"toastContainer"
+
+);
+
+
+
+const toast = document.createElement("div");
+
+
+toast.className = `toast ${type}`;
+
+
+
+const content = document.createElement("div");
+
+
+content.className="toast-content";
+
+
+
+const icon = document.createElement("div");
+
+
+icon.className="toast-icon";
+
+
+
+const icons = {
+
+
+success:"✓",
+
+error:"✕",
+
+warning:"!",
+
+info:"i"
+
+
+};
+
+
+
+icon.textContent = icons[type];
+
+
+
+const text = document.createElement("span");
+
+
+text.textContent = message;
+
+
+
+content.append(
+
+icon,
+
+text
+
+);
+
+
+
+const progress = document.createElement("div");
+
+
+progress.className="toast-bar";
+
+
+
+toast.append(
+
+content,
+
+progress
+
+);
+
+
+
+container.appendChild(toast);
+
+
+
+
+
+setTimeout(()=>{
+
+
+toast.style.opacity="0";
+
+
+toast.style.transform="translateX(120px)";
+
+
+
+setTimeout(()=>{
+
+
+toast.remove();
+
+
+},400);
+
+
+
+},duration);
+
+}
+
+
+</script>
+
+<script>
+
+
+// =======================================
+// BUTTON DEMO
+// =======================================
+
+
+const buttonsDemo = document.getElementById("buttonsDemo");
+
+
+buttonsDemo.append(
+
+createButton({
+
+text:"Primary",
+
+variant:"primary",
+
+onClick(){
+
+createToast({
+
+message:"Primary action completed!",
+
+type:"success"
+
+});
+
+}
+
+}),
+
+
+createButton({
+
+text:"Outline",
+
+variant:"outline",
+
+onClick(){
+
+createToast({
+
+message:"Outline button clicked!",
+
+type:"info"
+
+});
+
+}
+
+}),
+
+
+createButton({
+
+text:"Danger",
+
+variant:"danger",
+
+onClick(){
+
+createToast({
+
+message:"Danger action triggered!",
+
+type:"error"
+
+});
+
+}
+
+})
+
+);
+
+
+
+
+// =======================================
+// CARD DEMO
+// =======================================
+
+
+const cardsDemo = document.getElementById("cardsDemo");
+
+
+cardsDemo.append(
+
+createCard({
+
+title:"Frontend Developer",
+
+role:"React • JavaScript • UI",
+
+description:
+"Creates responsive interfaces and reusable components.",
+
+icon:"⚡"
+
+}),
+
+
+createCard({
+
+title:"UI Designer",
+
+role:"Figma • Design Systems",
+
+description:
+"Designs modern interfaces with focus on user experience.",
+
+icon:"🎨"
+
+}),
+
+
+createCard({
+
+title:"AI Engineer",
+
+role:"Machine Learning",
+
+description:
+"Builds intelligent applications using modern AI tools.",
+
+icon:"🤖"
+
+})
+
+);
+
+
+
+
+
+// =======================================
+// MODAL DEMO
+// =======================================
+
+
+const modalDemo = document.getElementById("modalDemo");
+
+
+modalDemo.append(
+
+createButton({
+
+text:"Open Modal",
+
+variant:"primary",
+
+onClick(){
+
+
+createModal({
+
+title:"Welcome to ORBIT UI",
+
+message:
+"This modal was created using a reusable JavaScript component. The same structure can be reused with different properties.",
+
+confirmText:"Continue",
+
+cancelText:"Close",
+
+
+onConfirm(){
+
+
+createToast({
+
+message:"Confirmed successfully!",
+
+type:"success"
+
+});
+
+
+}
+
+});
+
+
+}
+
+}),
+
+
+createButton({
+
+text:"Delete Item",
+
+variant:"danger",
+
+onClick(){
+
+
+createModal({
+
+title:"Delete this item?",
+
+message:
+"This action can't be undone. This is just a demo — nothing is actually deleted.",
+
+confirmText:"Delete",
+
+cancelText:"Cancel",
+
+
+onConfirm(){
+
+
+createToast({
+
+message:"Item deleted.",
+
+type:"error"
+
+});
+
+
+}
+
+});
+
+
+}
+
+}),
+
+
+createButton({
+
+text:"View Info",
+
+variant:"outline",
+
+onClick(){
+
+
+createModal({
+
+title:"About this component",
+
+message:
+"createModal() takes a title, a message, and custom button labels — every call above builds a fresh instance with different props.",
+
+confirmText:"Got it",
+
+cancelText:"Dismiss"
+
+});
+
+
+}
+
+})
+
+);
+
+
+
+
+
+// =======================================
+// TOAST DEMO
+// =======================================
+
+
+const toastDemo = document.getElementById("toastDemo");
+
+
+toastDemo.append(
+
+
+createButton({
+
+text:"Success",
+
+variant:"primary",
+
+onClick(){
+
+createToast({
+
+message:"Your changes were saved!",
+
+type:"success"
+
+});
+
+}
+
+}),
+
+
+
+createButton({
+
+text:"Warning",
+
+variant:"outline",
+
+onClick(){
+
+createToast({
+
+message:"Storage is almost full.",
+
+type:"warning"
+
+});
+
+}
+
+}),
+
+
+
+createButton({
+
+text:"Error",
+
+variant:"danger",
+
+onClick(){
+
+createToast({
+
+message:"Something went wrong!",
+
+type:"error"
+
+});
+
+}
+
+}),
+
+
+
+createButton({
+
+text:"Stack 3 toasts",
+
+variant:"outline",
+
+onClick(){
+
+createToast({ message:"First notification", type:"info" });
+
+setTimeout(()=>{
+
+createToast({ message:"Second notification", type:"warning" });
+
+}, 250);
+
+setTimeout(()=>{
+
+createToast({ message:"Third notification", type:"success" });
+
+}, 500);
+
+}
+
+})
+
+);
+
+
+
+
+
+// =======================================
+// DARK MODE TOGGLE
+// =======================================
+
+
+const themeButton = document.getElementById(
+
+"themeToggle"
+
+);
+
+
+themeButton.addEventListener(
+
+"click",
+
+function(){
+
+
+document.body.classList.toggle("dark");
+
+
+
+if(document.body.classList.contains("dark")){
+
+
+themeButton.textContent="Light Mode";
+
+
+}
+
+else{
+
+
+themeButton.textContent="Dark Mode";
+
+
+}
+
+
+
+}
+
+);
+
+
+
+
+
+// =======================================
+// SCROLL REVEAL
+// =======================================
+
+
+const revealElements = document.querySelectorAll(
+
+".panel, .hero, .preview"
+
+);
+
+
+
+const observer = new IntersectionObserver(
+
+(entries)=>{
+
+
+entries.forEach(entry=>{
+
+
+if(entry.isIntersecting){
+
+
+entry.target.classList.add("reveal","show");
+
+
+}
+
+
+});
+
+
+},
+
+{
+
+threshold:.2
+
+}
+
+);
+
+
+
+revealElements.forEach(element=>{
+
+
+observer.observe(element);
+
+
+});
+
+
+
+</script>
+
+
+</body>
+
+</html>
